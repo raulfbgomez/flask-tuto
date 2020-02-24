@@ -2,6 +2,8 @@ from flask import Flask, request, make_response, redirect, render_template
 
 app = Flask(__name__)
 
+todos = ['TODO 1', 'TODO 2', 'TODO 3']
+
 # decorador de python
 @app.route('/')
 def index():
@@ -14,4 +16,10 @@ def index():
 @app.route('/hello')
 def hello():
     user_ip = request.cookies.get('user_ip')
-    return render_template('hello.html', user_ip=user_ip)
+    # crear un nuevo diccionario de python
+    context = {
+    	'user_ip': user_ip,
+    	'todos': todos
+    }
+    # Expandir variables con ** de python
+    return render_template('hello.html', **context)
