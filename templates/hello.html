@@ -1,20 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hello World</title>
-  </head>
-  <body>
-    {% if user_ip %}
-      <h1>Hello World tu IP es {{ user_ip }}</h1>
-    {% else %}
-      <a href="{{ url_for('index')}}">Ir a inicio</a>
-    {% endif %}
-    <ul>
-      {% for todo in todos %}
-        <li>{{ todo }}</li>
-      {% endfor %}
-    </ul>
-  </body>
-</html>
+{% extends 'base.html' %}
+{% import 'macros.html' as macros %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block title %}{{ super() }}Bienvenido{% endblock %}
+
+{% block content %}
+
+  <img src="{{ url_for('static', filename='images/flask.png') }}" class="image" alt="flask logo">
+
+  {% if user_ip %}
+    <h1>Hello World tu IP es {{ user_ip }}</h1>
+  {% else %}
+    <a href="{{ url_for('index')}}">Ir a inicio</a>
+  {% endif %}
+  <ul>
+    {% for todo in todos %}
+      {{ macros.render_todo(todo) }}
+    {% endfor %}
+  </ul>
+
+  <div class="container">
+    <!-- <form action="{{ url_for('hello') }}" method="POST">
+      {{ login_form.username.label }}
+      {{ login_form.username }}
+      {{ login_form.password }}
+      {{ login_form.button }}
+    </form> -->
+    {{ wtf.quick_form(login_form) }}
+  </div>
+
+{% endblock %}
