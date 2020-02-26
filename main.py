@@ -3,6 +3,7 @@ import unittest
 
 from app import create_app
 from app.forms import LoginForm
+from app.firestore_service import get_users, get_todos
 
 # from flask_bootstrap import Bootstrap
 # from flask_wtf import FlaskForm
@@ -10,8 +11,6 @@ from app.forms import LoginForm
 # from wtforms.validators import DataRequired
 
 app = create_app()
-
-todos = ['TODO 1', 'TODO 2', 'TODO 3']
 
 @app.cli.command()
 def test():
@@ -44,8 +43,14 @@ def hello():
 	# crear un nuevo diccionario de python
 	context = {
 		'user_ip': user_ip,
-		'todos': todos,
+		'todos': get_todos(user_id=username),
 		'username': username
 	}
+
+	users = get_users()
+
+	for user in users:
+		print(user.id)
+		print(user.to_dict()['password'])
 	# Expandir variables con ** de python
 	return render_template('hello.html', **context)
