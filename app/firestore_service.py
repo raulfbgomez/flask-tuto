@@ -14,7 +14,9 @@ from firebase_admin import  firestore
 # Use the application default credentials
 if (not len(firebase_admin._apps)):
   cred = credentials.ApplicationDefault()
-  firebase_admin.initialize_app(cred)
+  firebase_admin.initialize_app(cred, {
+    'projectId': 'flask-tuto-269406'
+  })
 
 db = firestore.client()
 
@@ -22,6 +24,9 @@ db = firestore.client()
 # Metodos
 def get_users():
   return db.collection('users').get()
+
+def get_user(user_id):
+  return db.collection('users').document(user_id).get()
 
 def get_todos(user_id):
   return db.collection('users').document(user_id).collection('todos').get()
